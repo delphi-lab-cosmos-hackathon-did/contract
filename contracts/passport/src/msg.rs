@@ -2,6 +2,8 @@ use cosmwasm_schema::cw_serde;
 use cosmwasm_std::Empty;
 use cw721_base::msg::QueryMsg as Cw721QueryMsg;
 
+use crate::state::BadgeInfo;
+
 #[cw_serde]
 pub struct Trait {
     pub display_type: Option<String>,
@@ -33,7 +35,14 @@ pub struct InstantiateMsg {
 
 #[cw_serde]
 pub enum QueryMsg {
+    /// additional msg
     Admin {},
+    Badges {
+        owner: String,
+        start_after: Option<String>,
+        limit: Option<u32>,
+    },
+    /// standard cw721 query
     OwnerOf {
         token_id: String,
         include_expired: Option<bool>,
@@ -115,6 +124,11 @@ impl From<QueryMsg> for Cw721QueryMsg<Empty> {
 #[cw_serde]
 pub struct AdminResponse {
     pub admin: String,
+}
+
+#[cw_serde]
+pub struct BadgesResponse {
+    pub badges: Vec<BadgeInfo>,
 }
 
 #[cw_serde]

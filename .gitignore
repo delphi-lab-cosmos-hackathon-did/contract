@@ -25,3 +25,4 @@ tarpaulin-report.*
 
 .env
 artifacts
+node_modules

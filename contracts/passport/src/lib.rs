@@ -23,7 +23,7 @@ pub mod entry {
     use super::*;
     use crate::execute::{claim, issue, mint};
     use crate::msg::ExecuteMsg;
-    use crate::query::admin;
+    use crate::query::{admin, badges_owner};
     use crate::state::{Config, CONFIG};
     use cosmwasm_std::{
         entry_point, to_binary, Binary, Deps, DepsMut, Env, MessageInfo, Response, StdResult,
@@ -106,6 +106,11 @@ pub mod entry {
     pub fn query(deps: Deps, env: Env, msg: QueryMsg) -> StdResult<Binary> {
         match msg {
             QueryMsg::Admin {} => to_binary(&admin(deps)?),
+            QueryMsg::Badges {
+                owner,
+                start_after,
+                limit,
+            } => to_binary(&badges_owner(deps, owner, start_after, limit)?),
             _ => PassportContract::default().query(deps, env, msg.into()),
         }
     }
