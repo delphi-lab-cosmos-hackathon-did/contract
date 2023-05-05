@@ -1,8 +1,6 @@
 use cosmwasm_schema::cw_serde;
-use cosmwasm_std::Empty;
+use cosmwasm_std::{Empty, Uint128};
 use cw721_base::msg::QueryMsg as Cw721QueryMsg;
-
-use crate::state::BadgeInfo;
 
 #[cw_serde]
 pub struct Trait {
@@ -127,8 +125,19 @@ pub struct AdminResponse {
 }
 
 #[cw_serde]
+pub struct BadgeResponse {
+    pub key: String,
+    pub owner: String,
+    pub category: String,
+    pub badge: String,
+    pub is_claimed: bool,
+    pub issue_time: Uint128,
+    pub claimed_time: Uint128,
+}
+
+#[cw_serde]
 pub struct BadgesResponse {
-    pub badges: Vec<BadgeInfo>,
+    pub badges: Vec<BadgeResponse>,
 }
 
 #[cw_serde]

@@ -8,6 +8,8 @@ pub mod execute;
 pub mod msg;
 pub mod query;
 pub mod state;
+#[cfg(test)]
+mod testing;
 
 // version info for migration info
 const CONTRACT_NAME: &str = "crates.io:passport-nft";

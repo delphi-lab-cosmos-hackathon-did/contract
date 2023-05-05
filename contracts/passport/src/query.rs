@@ -1,6 +1,6 @@
 use crate::{
-    msg::{AdminResponse, BadgesResponse},
-    state::{badges, BadgeInfo, CONFIG},
+    msg::{AdminResponse, BadgeResponse, BadgesResponse},
+    state::{badges, CONFIG},
 };
 use cosmwasm_std::{Deps, Order, StdResult};
 use cw_storage_plus::Bound;
@@ -25,7 +25,7 @@ pub fn badges_owner(
     let start: Option<Bound<String>> = start_after.map(|s| Bound::ExclusiveRaw(s.into()));
 
     let owner_addr = deps.api.addr_validate(&owner)?;
-    let badges: Vec<BadgeInfo> = badges()
+    let badges: Vec<BadgeResponse> = badges()
         .idx
         .owner
         .prefix(owner_addr)
@@ -33,7 +33,16 @@ pub fn badges_owner(
         .take(limit)
         .map(|x| {
             let a = x.unwrap();
-            return a.1;
+            let badge_info = a.1;
+            return BadgeResponse {
+                key: a.0,
+                owner: badge_info.owner.to_string(),
+                category: badge_info.category,
+                badge: badge_info.badge,
+                is_claimed: badge_info.is_claimed,
+                issue_time: badge_info.issue_time,
+                claimed_time: badge_info.claimed_time,
+            };
         })
         .collect();
     Ok(BadgesResponse { badges })

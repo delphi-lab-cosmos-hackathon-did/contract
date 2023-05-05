@@ -1,10 +1,10 @@
 import { SigningCosmWasmClient } from '@cosmjs/cosmwasm-stargate';
 const rpcURL = "https://rpc-test.osmosis.zone/";
 const contractAddress =
-  "osmo1d6y077y8uhhmls0ar3vxzddqc9udrka0zu5ukg6uw2s4juatxv4sz3yxz4";
+  "osmo1ds76kax8amq7865xqfza7xsersdkf0g0w2vf22up2pes4gejmaqqgft4fl";
 const queryMsg = `{
   "badges": {
-    "owner": "osmo19tpkal6x788tlahpztt6p6xlwlt3yylpcu8g63"
+    "owner": "osmo13v5gkp8g2qwwycxf2jmzegvee75hrgg5qp2z50"
   }
 }`;
 

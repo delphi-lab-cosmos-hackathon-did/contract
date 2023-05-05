@@ -30,9 +30,10 @@ impl<'a> IndexList<BadgeInfo> for BadgeIndexes<'_> {
     }
 }
 
+// @TODO currently use unoptimized key (category_badge_owner), may use hash for next time
 pub fn badges<'a>() -> IndexedMap<'a, &'a str, BadgeInfo, BadgeIndexes<'a>> {
     let indexes = BadgeIndexes {
-        owner: MultiIndex::new(|_pk, b| b.owner.clone(), "badge", "badge__owner"),
+        owner: MultiIndex::new(|_pk, b| b.owner.clone(), "badges", "badges__owner"),
     };
     IndexedMap::new("badges", indexes)
 }

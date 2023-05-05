@@ -9,7 +9,7 @@ require('dotenv').config()
 const { MNEMONIC } = process.env
 const chain = chains.find(({ chain_name }) => chain_name === 'osmosistestnet');
 const contractAddress =
-  'osmo1d6y077y8uhhmls0ar3vxzddqc9udrka0zu5ukg6uw2s4juatxv4sz3yxz4';
+  'osmo19jdjvm7ellwqlv7873nlx9lz36x6q6q6yl62dd7ygppnhudxej2stewy2e';
 const codePath = '../artifacts/passport-aarch64.wasm'
 
 const main = async () => {
@@ -39,6 +39,14 @@ const main = async () => {
   })
   const { contractAddress } = initResult
   console.log(`contract address: ${contractAddress}`)
+  // issue
+  await client.execute(sender.address, contractAddress, {
+    issue: {
+      owner: sender.address,
+      category: "osmo",
+      badge: "whale"
+    }
+  }, fee)
 };
 
 main();
