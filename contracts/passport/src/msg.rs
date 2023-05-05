@@ -26,10 +26,9 @@ pub struct Metadata {
 
 #[cw_serde]
 pub struct InstantiateMsg {
-    pub admin: Option<String>,
+    pub admin: String,
     pub name: String,
     pub symbol: String,
-    pub minter: String,
 }
 
 #[cw_serde]
@@ -115,21 +114,23 @@ impl From<QueryMsg> for Cw721QueryMsg<Empty> {
 
 #[cw_serde]
 pub struct AdminResponse {
-    pub admin: Option<String>,
+    pub admin: String,
 }
 
 #[cw_serde]
 pub enum ExecuteMsg {
     /// admin function
-    // Issue {
-    //   category: String,
-    //   badge: String,
-    //   addresses: Vec<String>
-    // },
+    Issue {
+        category: String,
+        badge: String,
+        owner: String,
+    },
     /// user function
     Mint {},
-    // Claim {
-    //     category: String,
-    //     badge: String,
-    // },
+    /// public function
+    Claim {
+        category: String,
+        badge: String,
+        owner: String,
+    },
 }

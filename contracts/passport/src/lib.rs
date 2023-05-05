@@ -21,12 +21,12 @@ pub type PassportContract<'a> = Cw721Contract<'a, Extension, Empty, Empty, Empty
 pub mod entry {
 
     use super::*;
-    use crate::execute::mint;
+    use crate::execute::{claim, issue, mint};
     use crate::msg::ExecuteMsg;
     use crate::query::admin;
     use crate::state::{Config, CONFIG};
     use cosmwasm_std::{
-        entry_point, to_binary, Addr, Binary, Deps, DepsMut, Env, MessageInfo, Response, StdResult,
+        entry_point, to_binary, Binary, Deps, DepsMut, Env, MessageInfo, Response, StdResult,
     };
 
     #[entry_point]
@@ -36,11 +36,7 @@ pub mod entry {
         info: MessageInfo,
         msg: InstantiateMsg,
     ) -> Result<Response, ContractError> {
-        let admin_addr: Option<Addr> = msg
-            .admin
-            .as_deref()
-            .map(|s| deps.api.addr_validate(s))
-            .transpose()?;
+        let admin_addr = deps.api.addr_validate(&msg.admin)?;
 
         let config = Config { admin: admin_addr };
 
@@ -49,7 +45,7 @@ pub mod entry {
         let cw721_base_instantiate_msg = Cw721BaseInstantiateMsg {
             name: msg.name,
             symbol: msg.symbol,
-            minter: msg.minter,
+            minter: msg.admin,
         };
 
         PassportContract::default().instantiate(
@@ -93,6 +89,16 @@ pub mod entry {
         // }
         match msg {
             ExecuteMsg::Mint {} => mint(deps, env, info),
+            ExecuteMsg::Issue {
+                category,
+                badge,
+                owner,
+            } => issue(deps, env, info, category, badge, owner),
+            ExecuteMsg::Claim {
+                category,
+                badge,
+                owner,
+            } => claim(deps, env, info, category, badge, owner),
         }
     }
 
