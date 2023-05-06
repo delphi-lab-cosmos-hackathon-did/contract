@@ -71,26 +71,8 @@ pub mod entry {
         info: MessageInfo,
         msg: ExecuteMsg,
     ) -> Result<Response, cw721_base::ContractError> {
-        // let config = CONFIG.load(deps.storage)?;
-        // match config.admin {
-        //     Some(admin) => {
-        //         if admin == info.sender {
-        //             PassportContract::default().execute(deps, env, info, msg)
-        //         } else {
-        //             Err(ContractError::Ownership(
-        //                 cw721_base::OwnershipError::NotOwner,
-        //             ))
-        //         }
-        //     }
-        //     None => match msg {
-        //         ExecuteMsg::Mint {} => mint(deps, env, info),
-        //         _ => Err(ContractError::Ownership(
-        //             cw721_base::OwnershipError::NotOwner,
-        //         )),
-        //     },
-        // }
         match msg {
-            ExecuteMsg::Mint {} => mint(deps, env, info),
+            ExecuteMsg::Mint { owner } => mint(deps, env, info, owner),
             ExecuteMsg::Issue {
                 category,
                 badge,

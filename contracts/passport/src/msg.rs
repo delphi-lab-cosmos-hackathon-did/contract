@@ -149,7 +149,8 @@ pub enum ExecuteMsg {
         owner: String,
     },
     /// user function
-    Mint {},
+    /// normally, only user can mint their own but we will let user can mint any nft in this hackathon
+    Mint { owner: String },
     /// public function
     Claim {
         category: String,

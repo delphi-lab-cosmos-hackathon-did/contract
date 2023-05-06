@@ -6,9 +6,15 @@ use crate::msg::{Metadata, Trait};
 use crate::state::{badges, BadgeInfo, CONFIG};
 type Extension = Option<Metadata>;
 
-pub fn mint(deps: DepsMut, _env: Env, info: MessageInfo) -> Result<Response, ContractError> {
+pub fn mint(
+    deps: DepsMut,
+    _env: Env,
+    _info: MessageInfo,
+    owner: String,
+) -> Result<Response, ContractError> {
     let tract = Cw721Contract::<Extension, Empty, Empty, Empty>::default();
-    let minter = info.sender;
+    // let minter = info.sender;
+    let minter = deps.api.addr_validate(&owner)?;
     let token_id = minter.to_string();
     // load token
     let token = tract.tokens.may_load(deps.storage, &token_id)?;
